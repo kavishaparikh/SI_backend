@@ -6,7 +6,7 @@ const sql = require("./db.js");
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 const Graph = function(graph) {
   this.value1 = graph.value1;
-  this.timestamp1 = graph.timestamp1;
+  this.time_stamp = graph.timestamp1;
   
 };
 
@@ -31,7 +31,7 @@ reference_col	       varchar(255)
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Graph.soilMoisture = (req_arr,result) =>{
-  sql.query("INSERT INTO soil_moisture(value1,timestamp1) VALUES ?", [req_arr], (err, res) => {
+  sql.query("INSERT INTO soil_moisture(value1,time_stamp,node_id) VALUES ?", [req_arr], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -52,7 +52,7 @@ Graph.soilMoisture = (req_arr,result) =>{
 
 
 Graph.findAllsoilMoisture = result => {
-  sql.query("SELECT * FROM soil_moisture", (err, res) => {
+  sql.query("SELECT * FROM soil_moisture limit 30", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -69,7 +69,7 @@ Graph.findAllsoilMoisture = result => {
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Graph.soilTemperature = (req_arr,result) =>{
-  sql.query("INSERT INTO soil_temperature(value1,timestamp1) VALUES ?", [req_arr], (err, res) => {
+  sql.query("INSERT INTO soil_temperature(value1,time_stamp,node_id) VALUES ?", [req_arr], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -90,7 +90,7 @@ Graph.soilTemperature = (req_arr,result) =>{
 
 
 Graph.findAllsoilTemperature = result => {
-  sql.query("SELECT * FROM soil_temperature", (err, res) => {
+  sql.query("SELECT * FROM soil_temperature limit 30", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -107,7 +107,7 @@ Graph.findAllsoilTemperature = result => {
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Graph.ambientHumidity = (req_arr,result) =>{
-  sql.query("INSERT INTO ambient_humidity(value1,timestamp1) VALUES ?", [req_arr], (err, res) => {
+  sql.query("INSERT INTO ambient_humidity(value1,time_stamp,node_id) VALUES ?", [req_arr], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -128,7 +128,7 @@ Graph.ambientHumidity = (req_arr,result) =>{
 
 
 Graph.findAllambientHumidity = result => {
-  sql.query("SELECT * FROM ambient_humidity", (err, res) => {
+  sql.query("SELECT * FROM ambient_humidity limit 30", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -145,7 +145,7 @@ Graph.findAllambientHumidity = result => {
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Graph.ambientTemperature = (req_arr,result) =>{
-  sql.query("INSERT INTO ambient_temperature(value1,timestamp1) VALUES ?", [req_arr], (err, res) => {
+  sql.query("INSERT INTO ambient_temperature(value1,time_stamp,node_id) VALUES ?", [req_arr], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -166,7 +166,7 @@ Graph.ambientTemperature = (req_arr,result) =>{
 
 
 Graph.findAllambientTemperature = result => {
-  sql.query("SELECT * FROM ambient_temperature", (err, res) => {
+  sql.query("SELECT * FROM ambient_temperature limit 30", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -183,7 +183,7 @@ Graph.findAllambientTemperature = result => {
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Graph.leafWetness = (req_arr,result) =>{
-  sql.query("INSERT INTO leaf_wetness(value1,timestamp1) VALUES ?", [req_arr], (err, res) => {
+  sql.query("INSERT INTO leaf_wetness(value1,time_stamp,node_id) VALUES ?", [req_arr], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -204,7 +204,7 @@ Graph.leafWetness = (req_arr,result) =>{
 
 
 Graph.findAllleafWetness = result => {
-  sql.query("SELECT * FROM leaf_wetness", (err, res) => {
+  sql.query("SELECT * FROM leaf_wetness limit 30", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
