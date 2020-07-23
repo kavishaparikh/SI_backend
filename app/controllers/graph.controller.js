@@ -3,25 +3,41 @@ const csv = require('csv-parse');
 const fs = require('fs');
 
 
+exports.addNode=(req,res)=>{
+  
+  console.log("got datattatatuf  " + req.body)
+  Graph.addNode(req.body, (err, data) => {
+    console.log("kavvuuu");
+  });
 
+}
+
+exports.addUser=(req,res)=>{
+  
+  console.log("got datattat  " + req.body)
+  Graph.addUser(req.body, (err, data) => {
+    console.log("kavvuuu");
+  });
+
+}
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Create records in bulk (for csv bulk upload) //soilMoisture
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 exports.soilMoisture = (req, res) => {
-  
-  const req_arr = Object.values(req.body).map((v) => Object.values(v));
+  console.log("File upload thai gai che chinta nai karo"+req);
+  // const req_arr = Object.values(req.body).map((v) => Object.values(v));
 
 // Validate request (just incase body is not empty)
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!",
-    });
-  }
-  let i=1,j=0,k=0;
+  // if (!req.body) {
+  //   res.status(400).send({
+  //     message: "Content can not be empty!",
+  //   });
+  // }
+let i=1,j=0,k=0;
 let node_id;
 const soil_moisture=[],soil_temperature=[],ambient_humidity=[],ambient_tempreture=[],leaf_wetness=[];
-fs.createReadStream(__dirname + '/data.csv')
+fs.createReadStream(__dirname + '/' + req)
   .pipe(csv())
   
   .on('data', (datarow) => {
@@ -78,48 +94,48 @@ fs.createReadStream(__dirname + '/data.csv')
    
   })
   .on('end', () => {
-    console.log(soil_moisture);
+    // console.log(soil_moisture);
     Graph.soilMoisture(soil_moisture, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message: err.message || "Some error occurred while sending data.",
-        });
-      else
-      {
-        res.send(data);
-      } 
+      // if (err)
+      //   res.status(500).send({
+      //     message: err.message || "Some error occurred while sending data.",
+      //   });
+      // else
+      // {
+      //   res.send(data);
+      // } 
     });
 
     Graph.soilTemperature(soil_temperature, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message: err.message || "Some error occurred while sending data.",
-        });
-      else res.send(data);
+      // if (err)
+      //   res.status(500).send({
+      //     message: err.message || "Some error occurred while sending data.",
+      //   });
+      // else res.send(data);
     });
 
     Graph.ambientHumidity(ambient_humidity, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message: err.message || "Some error occurred while sending data.",
-        });
-      else res.send(data);
+      // if (err)
+      //   res.status(500).send({
+      //     message: err.message || "Some error occurred while sending data.",
+      //   });
+      // else res.send(data);
     });
 
     Graph.ambientTemperature(ambient_tempreture, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message: err.message || "Some error occurred while sending data.",
-        });
-      else res.send(data);
+      // if (err){}
+      //   res.status(500).send({
+      //     message: err.message || "Some error occurred while sending data.",
+      //   });
+      // else res.send(data);
     });
 
     Graph.leafWetness(leaf_wetness, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message: err.message || "Some error occurred while sending data.",
-        });
-      else res.send(data);
+      // if (err)
+      //   res.status(500).send({
+      //     message: err.message || "Some error occurred while sending data.",
+      //   });
+      // else res.send(data);
     });
   });
 
@@ -301,3 +317,5 @@ exports.findAllleafWetness = (req, res) => {
     else res.send(data);
   });
 };
+
+

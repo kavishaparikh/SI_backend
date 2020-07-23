@@ -43,6 +43,37 @@ Graph.soilMoisture = (req_arr,result) =>{
   });
 };
 
+Graph.addNode = (req,result) =>{
+  sql.query("INSERT INTO node_details VALUES (?,?,?,?,?,?,?,?)", [req.node_id,req.soil_type,req.crop_type,req.soil_density,req.feeding_date,req.longitude,req.latitude,req.email_id], (err, res) => {
+    // sql.query("INSERT INTO node_details(node_id,soil_type,crop_type,soil_density,feeding_date,longitude,latitude,email_id) VALUES ?", req, (err, res) => {  
+  if (err) {
+    console.log(req)
+      console.log("error: ", err);
+
+      result(err, null);
+      return;
+    }
+    
+    
+    result(null, {records:req.length, status:'Sucess'});
+  });
+};
+
+
+Graph.addUser = (req,result) =>{
+  sql.query("INSERT INTO user_details(email_id,name,phone_no,address,password) VALUES (?,?,?,?,?)", [req.email_id,req.name,req.phone_no,req.address,req.pass], (err, res) => {
+    // sql.query("INSERT INTO node_details(node_id,soil_type,crop_type,soil_density,feeding_date,longitude,latitude,email_id) VALUES ?", req, (err, res) => {  
+  if (err) {
+      console.log("error: ", err);
+
+      result(err, null);
+      return;
+    }
+    
+    console.log("hsvggg")
+    result(null, {records:req.length, status:'Sucess'});
+  });
+};
 
 
 
