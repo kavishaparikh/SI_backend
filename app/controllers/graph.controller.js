@@ -1,13 +1,13 @@
 const Graph = require("../models/graph.model.js");
 const csv = require('csv-parse');
 const fs = require('fs');
-
+const moment = require('moment')
 
 exports.addNode=(req,res)=>{
   
   console.log("got datattatatuf  " + req.body)
   Graph.addNode(req.body, (err, data) => {
-    console.log("kavvuuu");
+    console.log("kavvii");
   });
 
 }
@@ -16,7 +16,7 @@ exports.addUser=(req,res)=>{
   
   console.log("got datattat  " + req.body)
   Graph.addUser(req.body, (err, data) => {
-    console.log("kavvuuu");
+    console.log("kavii");
   });
 
 }
@@ -44,7 +44,8 @@ fs.createReadStream(__dirname + '/' + req)
       
     if(i==1)
     {
-        node_id=datarow[1];
+      var nodename = req.split('.');
+        node_id=nodename[0];
     }
     
     if(i>7)
@@ -148,7 +149,15 @@ fs.createReadStream(__dirname + '/' + req)
 //    Retrieve entire record  //soilMoisture
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 exports.findAllsoilMoisture = (req, res) => {
-  Graph.findAllsoilMoisture((err, data) => {
+  
+ 
+  var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
+  var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
+  
+  console.log("date "+sd);
+  console.log("date "+ed);
+  Graph.findAllsoilMoisture(req.params.id,sd,ed,(err, data) => {
+    
     if (err)
       res.status(500).send({
         message:
@@ -186,9 +195,13 @@ exports.soilTemperature = (req, res) => {
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Retrieve entire record  //soilTemperature
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::   :::::::::::::::::::::::
 exports.findAllsoilTemperature = (req, res) => {
-  Graph.findAllsoilTemperature((err, data) => {
+   
+  var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
+  var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
+  console.log("heyyyyy"+req.params.id)
+  Graph.findAllsoilTemperature(req.params.id,sd,ed,(err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -228,7 +241,10 @@ exports.ambientHumidity = (req, res) => {
 //    Retrieve entire record  //ambientHumidity
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 exports.findAllambientHumidity= (req, res) => {
-  Graph.findAllambientHumidity((err, data) => {
+  
+  var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
+  var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
+  Graph.findAllambientHumidity(req.params.id,sd,ed,(err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -267,9 +283,11 @@ exports.ambientTemperature = (req, res) => {
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Retrieve entire record  //ambientTemperature
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
 exports.findAllambientTemperature= (req, res) => {
-  Graph.findAllambientTemperature((err, data) => {
+  
+  var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
+  var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
+  Graph.findAllambientTemperature(req.params.id,sd,ed,(err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -278,6 +296,7 @@ exports.findAllambientTemperature= (req, res) => {
     else res.send(data);
   });
 };
+
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Create records in bulk (for csv bulk upload) //leafWetness
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -308,7 +327,10 @@ exports.leafWetness = (req, res) => {
 //    Retrieve entire record  //leafWetness
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 exports.findAllleafWetness = (req, res) => {
-  Graph.findAllleafWetness((err, data) => {
+   
+  var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
+  var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
+   Graph.findAllleafWetness(req.params.id,sd,ed,(err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -318,4 +340,52 @@ exports.findAllleafWetness = (req, res) => {
   });
 };
 
+exports.getnodedetails = (req, res) => {
+  
+  Graph.getnodedetails((err, data) => {
+   if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+    else res.send(data);
+  });
+};
 
+exports.getnode = (req, res) => {
+  console.log("heyyyy "+req.params.id)
+  Graph.getnode(req.params.id,(err, data) => {
+   if (err)
+
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+    else res.send(data);
+  });
+};
+
+
+exports.getstartdate= (req, res) => {
+  
+  Graph.getstartdate(req.params.id,(err, data) => {
+   if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+    else res.send(data);
+  });
+};
+
+exports.getenddate = (req,res) => {
+  
+  Graph.getenddate(req.params.id,(err, data) => {
+   if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+    else res.send(data);
+  });
+};

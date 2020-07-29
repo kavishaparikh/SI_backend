@@ -82,8 +82,8 @@ Graph.addUser = (req,result) =>{
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-Graph.findAllsoilMoisture = result => {
-  sql.query("SELECT * FROM soil_moisture limit 30", (err, res) => {
+Graph.findAllsoilMoisture =(req,sd,ed, result) => {
+  sql.query("SELECT * FROM soil_moisture where node_id=? and time_stamp between ? and ? ",[req,sd,ed] ,(err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -120,8 +120,8 @@ Graph.soilTemperature = (req_arr,result) =>{
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-Graph.findAllsoilTemperature = result => {
-  sql.query("SELECT * FROM soil_temperature limit 30", (err, res) => {
+Graph.findAllsoilTemperature = (req,sd,ed,result )=> {
+  sql.query("SELECT * FROM soil_temperature where node_id=? and time_stamp between ? and ? ",[req,sd,ed], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -158,8 +158,8 @@ Graph.ambientHumidity = (req_arr,result) =>{
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-Graph.findAllambientHumidity = result => {
-  sql.query("SELECT * FROM ambient_humidity limit 30", (err, res) => {
+Graph.findAllambientHumidity = (req,sd,ed,result) => {
+  sql.query("SELECT * FROM ambient_humidity where node_id=? and time_stamp between ? and ? ",[req,sd,ed], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -194,10 +194,8 @@ Graph.ambientTemperature = (req_arr,result) =>{
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // Fetch all the the records //Ambient temperature
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-Graph.findAllambientTemperature = result => {
-  sql.query("SELECT * FROM ambient_temperature limit 30", (err, res) => {
+Graph.findAllambientTemperature = (req,sd,ed,result) => {
+  sql.query("SELECT * FROM ambient_temperature where node_id=? and time_stamp between ? and ? ",[req,sd,ed], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -208,6 +206,8 @@ Graph.findAllambientTemperature = result => {
     result(null, res);
   });
 };
+
+
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // Bulk Creation of records from csv //Leaf wetness
@@ -234,8 +234,8 @@ Graph.leafWetness = (req_arr,result) =>{
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-Graph.findAllleafWetness = result => {
-  sql.query("SELECT * FROM leaf_wetness limit 30", (err, res) => {
+Graph.findAllleafWetness = (req,sd,ed,result) => {
+  sql.query("SELECT * FROM leaf_wetness where node_id=? and time_stamp between ? and ? ",[req,sd,ed], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -247,4 +247,54 @@ Graph.findAllleafWetness = result => {
   });
 };
 
+Graph.getnodedetails= result => {
+  sql.query("SELECT DISTINCT * FROM node_details", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    
+    result(null, res);
+  });
+};
+
+Graph.getnode= (req,result) => {
+  sql.query("SELECT node_id,soil_type,crop_type,soil_density,feeding_date,longitude,latitude,user_details.name FROM node_details join user_details on node_details.email_id=user_details.email_id where node_details.node_id=? limit 1",[req], (err, res) => {
+    if (err) {
+      console.log("error: ", err); 
+      result(null, err);
+      return; 
+    }
+
+   result(null, res);
+  });
+};
+
+Graph.getstartdate= (req,result) => {
+  sql.query("SELECT MIN (time_stamp) AS date FROM soil_moisture where node_id=? ",[req] ,(err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    
+    result(null, res);
+  });
+};
+
+Graph.getenddate= (req,result) => {
+  sql.query("SELECT MAX (time_stamp) AS date FROM soil_moisture where node_id=? ",[req], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    
+    result(null, res);
+  });
+};
 module.exports = Graph;

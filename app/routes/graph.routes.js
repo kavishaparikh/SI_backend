@@ -12,7 +12,7 @@ module.exports = (app) => {
   app.post("/soilmoisture", graphs.soilMoisture);
 
   // GET call to retrieve all the records present in table
-  app.get("/soilmoisture", graphs.findAllsoilMoisture);
+  app.get("/soilmoisture/:id/:sd/:ed", graphs.findAllsoilMoisture);
   //------------------------soilmoisture---------------------------------//
  
   //------------------------Soil temperature---------------------------------//
@@ -20,7 +20,7 @@ module.exports = (app) => {
   app.post("/soiltemperature", graphs.soilTemperature);
 
   // GET call to retrieve all the records present in table
-  app.get("/soiltemperature", graphs.findAllsoilTemperature);
+  app.get("/soiltemperature/:id/:sd/:ed", graphs.findAllsoilTemperature);
   //------------------------Soil temperature---------------------------------//
 
   //------------------------Ambient humidity---------------------------------//
@@ -28,7 +28,7 @@ module.exports = (app) => {
   app.post("/ambienthumidity", graphs.ambientHumidity);
 
   // GET call to retrieve all the records present in table
-  app.get("/ambienthumidity", graphs.findAllambientHumidity);
+  app.get("/ambienthumidity/:id/:sd/:ed", graphs.findAllambientHumidity);
   //------------------------Ambient humidity---------------------------------//
 
   //------------------------Ambient temperature---------------------------------//
@@ -36,7 +36,7 @@ module.exports = (app) => {
   app.post("/ambienttemperature", graphs.ambientTemperature);
 
   // GET call to retrieve all the records present in table
-  app.get("/ambienttemperature", graphs.findAllambientTemperature);
+  app.get("/ambienttemperature/:id/:sd/:ed", graphs.findAllambientTemperature);
   //------------------------Ambient temperature---------------------------------//
 
   //------------------------Leaf wetness---------------------------------//
@@ -44,8 +44,11 @@ module.exports = (app) => {
   app.post("/leafwetness", graphs.leafWetness);
 
   // GET call to retrieve all the records present in table
-  app.get("/leafwetness", graphs.findAllleafWetness);
+  app.get("/leafwetness/:id/:sd/:ed", graphs.findAllleafWetness);
 
   //------------------------Leaf wetness---------------------------------//
-  
+  app.get("/node_data",graphs.getnodedetails);
+  app.get("/node_details/:id",graphs.getnode);
+  app.get("/startdate/:id",graphs.getstartdate);
+  app.get("/enddate/:id",graphs.getenddate);
 };
