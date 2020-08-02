@@ -389,3 +389,34 @@ exports.getenddate = (req,res) => {
     else res.send(data);
   });
 };
+
+exports.getuserlist = (req, res) => {
+  
+  Graph.getuserlist((err, data) => {
+   if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+      
+    else {
+      res.send(data);
+    }
+  });
+};
+
+
+exports.getnodelist = (req, res) => {
+  // console.log("export");
+  Graph.getnodelist((err, data) => {
+   if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+      
+    else {
+      res.send(data);
+    }
+  });
+};

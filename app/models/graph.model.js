@@ -44,7 +44,7 @@ Graph.soilMoisture = (req_arr,result) =>{
 };
 
 Graph.addNode = (req,result) =>{
-  sql.query("INSERT INTO node_details VALUES (?,?,?,?,?,?,?,?)", [req.node_id,req.soil_type,req.crop_type,req.soil_density,req.feeding_date,req.longitude,req.latitude,req.email_id], (err, res) => {
+  sql.query("INSERT INTO node_details VALUES (?,?,?,?,?,?,?,?,1)", [req.node_id,req.soil_type,req.crop_type,req.soil_density,req.feeding_date,req.longitude,req.latitude,req.email_id], (err, res) => {
     // sql.query("INSERT INTO node_details(node_id,soil_type,crop_type,soil_density,feeding_date,longitude,latitude,email_id) VALUES ?", req, (err, res) => {  
   if (err) {
     console.log(req)
@@ -61,8 +61,7 @@ Graph.addNode = (req,result) =>{
 
 
 Graph.addUser = (req,result) =>{
-  sql.query("INSERT INTO user_details(email_id,name,phone_no,address,password) VALUES (?,?,?,?,?)", [req.email_id,req.name,req.phone_no,req.address,req.pass], (err, res) => {
-    // sql.query("INSERT INTO node_details(node_id,soil_type,crop_type,soil_density,feeding_date,longitude,latitude,email_id) VALUES ?", req, (err, res) => {  
+  sql.query("INSERT INTO user_details VALUES (?,?,?,?,'Customer',1)", [req.email_id,req.name,req.phone_no,req.pass], (err, res) => {
   if (err) {
       console.log("error: ", err);
 
@@ -74,7 +73,6 @@ Graph.addUser = (req,result) =>{
     result(null, {records:req.length, status:'Sucess'});
   });
 };
-
 
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -246,6 +244,37 @@ Graph.findAllleafWetness = (req,sd,ed,result) => {
     result(null, res);
   });
 };
+
+Graph.getuserlist = result => {
+  sql.query("SELECT DISTINCT * FROM user_details WHERE is_active = 1 and role = 'Customer'", (err, res) => {
+    
+    if (err) {
+      console.log("error: ", err);
+
+      result(null, err);
+      return;
+    }
+    result(null, res);
+    
+  });
+};
+
+
+Graph.getnodelist = result => {
+  // console.log("hellooooooo");
+  sql.query("SELECT DISTINCT * FROM node_details as nd join user_details as ud WHERE nd.email_id = ud.email_id and nd.is_active = 1", (err, res) => {
+    // console.log(res);
+    if (err) {
+      console.log("error: ", err);
+
+      result(null, err);
+      return;
+    }
+    result(null, res);
+    
+  });
+};
+
 
 Graph.getnodedetails= result => {
   sql.query("SELECT DISTINCT * FROM node_details", (err, res) => {

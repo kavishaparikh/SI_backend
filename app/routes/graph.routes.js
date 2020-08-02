@@ -51,4 +51,11 @@ module.exports = (app) => {
   app.get("/node_details/:id",graphs.getnode);
   app.get("/startdate/:id",graphs.getstartdate);
   app.get("/enddate/:id",graphs.getenddate);
+
+  //-------------------------Userlist------------------------------------//
+  app.get("/user_list",graphs.getuserlist);
+  
+  //-------------------------Userlist------------------------------------//
+  app.get("/node_list",graphs.getnodelist);
+  
 };
