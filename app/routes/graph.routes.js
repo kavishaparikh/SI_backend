@@ -14,7 +14,7 @@ module.exports = (app) => {
   // GET call to retrieve all the records present in table
   app.get("/soilmoisture/:id/:sd/:ed", graphs.findAllsoilMoisture);
   //------------------------soilmoisture---------------------------------//
- 
+  app.get("/download/:file", graphs.downloadfile);
   //------------------------Soil temperature---------------------------------//
   // POST call route to create records in bulk
   app.post("/soiltemperature", graphs.soilTemperature);

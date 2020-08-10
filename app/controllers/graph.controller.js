@@ -4,22 +4,19 @@ const fs = require('fs');
 const moment = require('moment')
 
 exports.addNode=(req,res)=>{
-  
-  console.log("got datattatatuf  " + req.body)
-  Graph.addNode(req.body, (err, data) => {
+    console.log("got datattatatuf  " + req.body)
+    Graph.addNode(req.body, (err, data) => {
     console.log("kavvii");
   });
-
 }
 
 exports.addUser=(req,res)=>{
-  
-  console.log("got datattat  " + req.body)
-  Graph.addUser(req.body, (err, data) => {
+    console.log("got datattat  " + req.body)
+    Graph.addUser(req.body, (err, data) => {
     console.log("kavii");
   });
-
 }
+
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Create records in bulk (for csv bulk upload) //soilMoisture
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -27,27 +24,24 @@ exports.addUser=(req,res)=>{
 exports.soilMoisture = (req, res) => {
   console.log("File upload thai gai che chinta nai karo"+req);
   // const req_arr = Object.values(req.body).map((v) => Object.values(v));
-
-// Validate request (just incase body is not empty)
+  // Validate request (just incase body is not empty)
   // if (!req.body) {
   //   res.status(400).send({
   //     message: "Content can not be empty!",
   //   });
   // }
+
 let i=1,j=0,k=0;
 let node_id;
 const soil_moisture=[],soil_temperature=[],ambient_humidity=[],ambient_tempreture=[],leaf_wetness=[];
 fs.createReadStream(__dirname + '/' + req)
   .pipe(csv())
-  
   .on('data', (datarow) => {
-      
     if(i==1)
-    {
-      var nodename = req.split('.');
+     {
+        var nodename = req.split('.');
         node_id=nodename[0];
     }
-    
     if(i>7)
       {
         let str=datarow[0]; 
@@ -63,7 +57,6 @@ fs.createReadStream(__dirname + '/' + req)
             var timeParts = dateTimeParts[1].split(':'),    
             dateParts = dateTimeParts[0].split('-');
             var d = new Date(parseInt(dateParts[2]), parseInt(dateParts[1], 10) - 1, parseInt( dateParts[0]), parseInt(timeParts[0]),  parseInt(timeParts[1]), 30, 0);
-           
             let arr = [parseFloat(datarow[0]),d,node_id];
             if(j==0)
             {
@@ -92,7 +85,6 @@ fs.createReadStream(__dirname + '/' + req)
         }
       }
       i++;
-   
   })
   .on('end', () => {
     // console.log(soil_moisture);
@@ -119,7 +111,7 @@ fs.createReadStream(__dirname + '/' + req)
       // if (err)
       //   res.status(500).send({
       //     message: err.message || "Some error occurred while sending data.",
-      //   });
+      // });
       // else res.send(data);
     });
 
@@ -130,6 +122,7 @@ fs.createReadStream(__dirname + '/' + req)
       //   });
       // else res.send(data);
     });
+
 
     Graph.leafWetness(leaf_wetness, (err, data) => {
       // if (err)
@@ -148,6 +141,7 @@ fs.createReadStream(__dirname + '/' + req)
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Retrieve entire record  //soilMoisture
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 exports.findAllsoilMoisture = (req, res) => {
   
  
@@ -166,16 +160,13 @@ exports.findAllsoilMoisture = (req, res) => {
     else res.send(data);
   });
 };
-
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Create records in bulk (for csv bulk upload) //soilTemperature
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 exports.soilTemperature = (req, res) => {
-  
-  const req_arr = Object.values(req.body).map((v) => Object.values(v));
+    const req_arr = Object.values(req.body).map((v) => Object.values(v));
 
-// Validate request (just incase body is not empty)
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
@@ -191,11 +182,10 @@ exports.soilTemperature = (req, res) => {
   });
 };
 
-
-
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Retrieve entire record  //soilTemperature
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::   :::::::::::::::::::::::
+
 exports.findAllsoilTemperature = (req, res) => {
    
   var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
@@ -218,7 +208,6 @@ exports.findAllsoilTemperature = (req, res) => {
 exports.ambientHumidity = (req, res) => {
   
   const req_arr = Object.values(req.body).map((v) => Object.values(v));
-
 // Validate request (just incase body is not empty)
   if (!req.body) {
     res.status(400).send({
@@ -235,11 +224,10 @@ exports.ambientHumidity = (req, res) => {
   });
 };
 
-
-
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Retrieve entire record  //ambientHumidity
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 exports.findAllambientHumidity= (req, res) => {
   
   var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
@@ -261,8 +249,7 @@ exports.findAllambientHumidity= (req, res) => {
 exports.ambientTemperature = (req, res) => {
   
   const req_arr = Object.values(req.body).map((v) => Object.values(v));
-
-// Validate request (just incase body is not empty)
+  // Validate request (just incase body is not empty)
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
@@ -276,13 +263,13 @@ exports.ambientTemperature = (req, res) => {
       });
     else res.send(data);
   });
+
 };
-
-
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Retrieve entire record  //ambientTemperature
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 exports.findAllambientTemperature= (req, res) => {
   
   var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
@@ -302,10 +289,8 @@ exports.findAllambientTemperature= (req, res) => {
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 exports.leafWetness = (req, res) => {
-  
   const req_arr = Object.values(req.body).map((v) => Object.values(v));
-
-// Validate request (just incase body is not empty)
+  // Validate request (just incase body is not empty)
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
@@ -321,16 +306,15 @@ exports.leafWetness = (req, res) => {
   });
 };
 
-
-
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Retrieve entire record  //leafWetness
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 exports.findAllleafWetness = (req, res) => {
    
   var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
   var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
-   Graph.findAllleafWetness(req.params.id,sd,ed,(err, data) => {
+  Graph.findAllleafWetness(req.params.id,sd,ed,(err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -355,9 +339,8 @@ exports.getnodedetails = (req, res) => {
 exports.getnode = (req, res) => {
   console.log("heyyyy "+req.params.id)
   Graph.getnode(req.params.id,(err, data) => {
-   if (err)
-
-      res.status(500).send({
+  if (err)
+  res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",
       });
@@ -405,18 +388,23 @@ exports.getuserlist = (req, res) => {
   });
 };
 
-
 exports.getnodelist = (req, res) => {
-  // console.log("export");
   Graph.getnodelist((err, data) => {
-   if (err)
+  if(err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",
       });
       
-    else {
+  else{
       res.send(data);
     }
   });
+};
+
+exports.downloadfile = (req, res) => {
+  console.log(req.params.file)
+  const file = `${__dirname}/${req.params.file}`;
+
+res.download(file); 
 };
