@@ -151,13 +151,23 @@ exports.findAllsoilMoisture = (req, res) => {
   console.log("date "+sd);
   console.log("date "+ed);
   Graph.findAllsoilMoisture(req.params.id,sd,ed,(err, data) => {
-    
+    arr=[];
     if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",
       });
-    else res.send(data);
+    else
+    { 
+      data.map((x)=>{
+         var times=new Date(x.time_stamp). getTime()
+        arr.push([times,x.value1])
+      })
+      console.log(arr);
+      res.send(arr);
+
+    }
+      
   });
 };
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -192,12 +202,21 @@ exports.findAllsoilTemperature = (req, res) => {
   var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
   console.log("heyyyyy"+req.params.id)
   Graph.findAllsoilTemperature(req.params.id,sd,ed,(err, data) => {
+    arr=[];
     if (err)
+    
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",
       });
-    else res.send(data);
+    else{
+      data.map((x)=>{
+        var times=new Date(x.time_stamp). getTime()
+       arr.push([times,x.value1])
+     })
+     console.log(arr);
+     res.send(arr);
+    }
   });
 };
 
@@ -233,12 +252,20 @@ exports.findAllambientHumidity= (req, res) => {
   var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
   var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
   Graph.findAllambientHumidity(req.params.id,sd,ed,(err, data) => {
+    arr=[];
     if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",
       });
-    else res.send(data);
+      else{
+        data.map((x)=>{
+          var times=new Date(x.time_stamp). getTime()
+         arr.push([times,x.value1])
+       })
+       console.log(arr);
+       res.send(arr);
+      }
   });
 };
 
@@ -275,12 +302,20 @@ exports.findAllambientTemperature= (req, res) => {
   var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
   var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
   Graph.findAllambientTemperature(req.params.id,sd,ed,(err, data) => {
+    arr=[];
     if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",
       });
-    else res.send(data);
+      else{
+        data.map((x)=>{
+          var times=new Date(x.time_stamp). getTime()
+         arr.push([times,x.value1])
+       })
+       console.log(arr);
+       res.send(arr);
+      }
   });
 };
 
@@ -315,12 +350,20 @@ exports.findAllleafWetness = (req, res) => {
   var sd =moment(Date.parse(req.params.sd)).format('YYYY-MM-DD HH:mm:ss');
   var ed =moment(Date.parse(req.params.ed)).format('YYYY-MM-DD HH:mm:ss');
   Graph.findAllleafWetness(req.params.id,sd,ed,(err, data) => {
+    arr=[];
     if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",
       });
-    else res.send(data);
+      else{
+        data.map((x)=>{
+          var times=new Date(x.time_stamp). getTime()
+         arr.push([times,x.value1])
+       })
+       console.log(arr);
+       res.send(arr);
+      }
   });
 };
 
