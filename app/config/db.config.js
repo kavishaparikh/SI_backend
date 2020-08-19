@@ -3,9 +3,4 @@ module.exports = {
   USER: "root",
   PASSWORD: "",
   DB: "si_db",
-};  
-
-
-
-
-
+};

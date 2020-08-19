@@ -17,6 +17,13 @@ exports.addUser=(req,res)=>{
   });
 }
 
+exports.deleteNode=(req,res)=>{
+  console.log("got delete  " + req.body)
+  Graph.addUser(req.body, (err, data) => {
+
+});
+}
+
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //    Create records in bulk (for csv bulk upload) //soilMoisture
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -408,6 +415,19 @@ exports.getenddate = (req,res) => {
   
   Graph.getenddate(req.params.id,(err, data) => {
    if (err)
+     res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving data.",
+    });
+   else res.send(data);
+});
+};
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//    Retrieve entire record  //user list
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+exports.findAllusers = (req, res) => {
+  Graph.findAllusers((err, data) => {
+    if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving data.",

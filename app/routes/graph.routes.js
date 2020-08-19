@@ -6,6 +6,8 @@ module.exports = (app) => {
 
   app.post("/addnodedetails",graphs.addNode);
 
+  app.post("/deletenode/:id",graphs.deleteNode);
+
   app.post("/adduserdetails",graphs.addUser);
   //------------------------soilmoisture---------------------------------//
   // POST call route to create records in bulk
