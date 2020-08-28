@@ -274,7 +274,7 @@ Graph.findAllleafWetness = (req,sd,ed,result) => {
 };
 
 Graph.getuserlist = result => {
-  sql.query("SELECT DISTINCT * FROM user_details WHERE is_active = 1 and role = 'Customer'", (err, res) => {
+  sql.query("SELECT DISTINCT * FROM user_details WHERE is_active = 1 ", (err, res) => {
     
     if (err) {
       console.log("error: ", err);
@@ -317,6 +317,18 @@ Graph.getnodedetails= result => {
   });
 };
 
+Graph.getnodedetails1= (req,result) => {
+  sql.query("SELECT DISTINCT * FROM node_details where email_id=?", [req], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    
+    result(null, res);
+  });
+};
 Graph.getnode= (req,result) => {
   sql.query("SELECT node_id,soil_type,crop_type,soil_density,feeding_date,longitude,latitude,user_details.name FROM node_details join user_details on node_details.email_id=user_details.email_id where node_details.node_id=? limit 1",[req], (err, res) => {
     if (err) {

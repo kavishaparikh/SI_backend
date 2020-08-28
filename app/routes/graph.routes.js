@@ -49,7 +49,7 @@ module.exports = (app) => {
   app.get("/leafwetness/:id/:sd/:ed", graphs.findAllleafWetness);
 
   //------------------------Leaf wetness---------------------------------//
-  app.get("/node_data",graphs.getnodedetails);
+  app.get("/node_data/:id/:role",graphs.getnodedetails);
   app.get("/node_details/:id",graphs.getnode);
   app.get("/startdate/:id",graphs.getstartdate);
   app.get("/enddate/:id",graphs.getenddate);

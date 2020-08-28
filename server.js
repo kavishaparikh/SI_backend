@@ -23,11 +23,15 @@ app.get("/", (req, res) => {
 require("./app/routes/graph.routes.js")(app);
 
 app.post('/upload',(req,res)=>{
-  // if(req.file===NULL)
-  // {
-  //     return res.status(400).json({messege:'No file choosen'});
-  // }
-  console.log(req);
+  var filename1=JSON.stringify( req.files.file.name)
+  var arr = filename1.split('.')
+  var ft = arr[1].split('"')
+  console.log(ft);
+  if(ft[0]!="csv")
+  {
+      return res.status(500).json({messege:'Invalid file choosen'});
+  }
+  
   const nametype=req.body.name+'.csv';
   const file=req.files.file;
   file.mv(`${__dirname}/app/controllers/${nametype}`,err=>{
@@ -36,8 +40,20 @@ app.post('/upload',(req,res)=>{
       console.error(err);
       return res.status(500).send(err);
     }
-    res.json({filename:file.name});
-    graphs.soilMoisture(nametype);
+    var a;
+    graphs.soilMoisture(nametype,(r)=>{
+      console.log(r)
+      a=r;
+      
+    })
+    function myFunc(arg) {
+    if(a=="error")
+      {
+        return res.status(500).json({messege:'Invalid file choosen'});
+      }
+    return res.json({filename:file.name});
+    }
+    setTimeout(myFunc, 1000, 'funky');
   });
 });
 // set port, listen for requests
