@@ -366,4 +366,24 @@ Graph.getenddate= (req,result) => {
     result(null, res);
   });
 };
+
+Graph.getnodedelete= (req,result) => {
+  // sql.query("delete * from soil_moisture where node_id=?",[req],result());
+  // sql.query("delete * from soil_temperature where node_id=?",[req],result());
+  // sql.query("delete * from ambient_humidity where node_id=?",[req],result());
+  // sql.query("delete * from ambient_temperature where node_id=?",[req],result());
+  // sql.query("delete * from leaf_wetness where node_id=?",[req],result());
+  sql.query("delete from node_details where node_id=?",[req],(err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    
+    result(null, res);
+  });
+  
+};
+
 module.exports = Graph;

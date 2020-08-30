@@ -469,7 +469,7 @@ exports.findAllusers = (req, res) => {
 };
 
 exports.getuserlist = (req, res) => {
-  
+    
   Graph.getuserlist((err, data) => {
    if (err)
       res.status(500).send({
@@ -502,4 +502,19 @@ exports.downloadfile = (req, res) => {
   const file = `${__dirname}/${req.params.file}`;
 
 res.download(file); 
+};
+
+exports.getnodedelete = (req, res) => {
+  console.log("kavisha "+req.params.id)
+  Graph.getnodedelete(req.params.id,(err, data) => {
+   if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+      
+    else {
+      res.send(data);
+    }
+  });
 };

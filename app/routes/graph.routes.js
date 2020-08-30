@@ -59,5 +59,6 @@ module.exports = (app) => {
   
   //-------------------------Userlist------------------------------------//
   app.get("/node_list",graphs.getnodelist);
+  app.delete("/deletenode/:id",graphs.getnodedelete);
   
 };
