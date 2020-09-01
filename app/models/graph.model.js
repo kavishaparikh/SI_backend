@@ -348,8 +348,6 @@ Graph.getstartdate= (req,result) => {
       result(null, err);
       return;
     }
-
-    
     result(null, res);
   });
 };
@@ -378,7 +376,7 @@ Graph.getnodedelete= (req,result) => {
       console.log("error: ", err);
       result(null, err);
       return;
-    }
+    } 
 
     
     result(null, res);

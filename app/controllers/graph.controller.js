@@ -22,7 +22,6 @@ exports.addUser=(req,res)=>{
 exports.deleteNode=(req,res)=>{
   console.log("got delete  " + req.body)
   Graph.addUser(req.body, (err, data) => {
-
 });
 }
 
