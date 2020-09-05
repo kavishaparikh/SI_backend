@@ -6,7 +6,7 @@ module.exports = (app) => {
 
   app.post("/addnodedetails",graphs.addNode);
 
-  app.post("/deletenode/:id",graphs.deleteNode);
+  app.get("/nodedropdown/:id",graphs.getnodedropdown);
 
   app.post("/adduserdetails",graphs.addUser);
   //------------------------soilmoisture---------------------------------//
@@ -56,6 +56,7 @@ module.exports = (app) => {
 
   //-------------------------Userlist------------------------------------//
   app.get("/user_list",graphs.getuserlist);
+  app.get("/allUser",graphs.getalluser);
   
   //-------------------------Userlist------------------------------------//
   app.get("/node_list",graphs.getnodelist);

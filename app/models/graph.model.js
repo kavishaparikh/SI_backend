@@ -59,21 +59,6 @@ Graph.addNode = (req,result) =>{
   });
 };
 
-Graph.deleteNode = (req,result) =>{
-  sql.query("DELETE FROM node_details as nd JOIN ambient_temperature as at JOIN ambient_humidity as ah JOIN leaf_wetness as lw JOIN soil_temperature as st JOIN soil_moisture as sm WHERE nd.node_id = ? AND at.node_id = ? AND ah.node_id = ? and lw.node_id = ? AND st.node_id = ? AND sm.node_id = ?", [req.node_id], (err, res) => {
-  if (err) {
-    console.log(req)
-      console.log("error: ", err);
-
-      result(err, null);
-      return;
-    }
-    
-    
-    result(null, {records:req.length, status:'Sucess'});
-  });
-};
-
 Graph.addUser = (req,result) =>{
   sql.query("INSERT INTO user_details VALUES (?,?,?,?,'Customer',1)", [req.email_id,req.name,req.phone_no,req.pass], (err, res) => {
   if (err) {
@@ -88,20 +73,6 @@ Graph.addUser = (req,result) =>{
   });
 };
 
-Graph.user_list = (req,result) =>{
-  sql.query("select ud.email_id,name,phone_no,password,node_id from user_details as ud join node_details as nd where ud.email_id = nd.email_id", (err, res) => {
-    console.log(sql);
-    if (err) {
-      console.log("error: ", err);
-
-      result(err, null);
-      return;
-    }
-    
-    console.log("done...")
-    result(null, {records:req.length, status:'Sucess'});
-  });
-};
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // Fetch all the the records // soilmoisture
@@ -274,7 +245,7 @@ Graph.findAllleafWetness = (req,sd,ed,result) => {
 };
 
 Graph.getuserlist = result => {
-  sql.query("SELECT DISTINCT * FROM user_details WHERE is_active = 1 ", (err, res) => {
+  sql.query("SELECT DISTINCT * FROM user_details WHERE role = 'Customer' and is_active = 1 ", (err, res) => {
     
     if (err) {
       console.log("error: ", err);
@@ -287,11 +258,25 @@ Graph.getuserlist = result => {
   });
 };
 
+Graph.getalluser = result => {
+  console.log("Backend");
+  sql.query("SELECT DISTINCT * FROM user_details", (err, res) => {
+    
+    if (err) {
+      console.log("error: ", err);
+
+      result(null, err);
+      return;
+    }
+    result(null, res);
+    
+  });
+};
 
 Graph.getnodelist = result => {
-  // console.log("hellooooooo");
+  console.log("hellooooooo");
   sql.query("SELECT DISTINCT * FROM node_details as nd join user_details as ud WHERE nd.email_id = ud.email_id and nd.is_active = 1", (err, res) => {
-    // console.log(res);
+    console.log(res);
     if (err) {
       console.log("error: ", err);
 
@@ -380,8 +365,21 @@ Graph.getnodedelete= (req,result) => {
 
     
     result(null, res);
-  });
-  
-};
+  })}
 
+  
+  Graph.getnodedropdown= (req,result) => {
+    sql.query("SELECT node_id FROM node_details where email_id=? ",[req], (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+  
+      
+      result(null, res);
+    });
+    
+  };
+  
 module.exports = Graph;

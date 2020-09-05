@@ -482,6 +482,21 @@ exports.getuserlist = (req, res) => {
   });
 };
 
+exports.getalluser = (req, res) => {
+    
+  Graph.getallusers((err, data) => {
+   if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving data.",
+      });
+      
+    else {
+      res.send(data);
+    }
+  });
+};
+
 exports.getnodelist = (req, res) => {
   Graph.getnodelist((err, data) => {
   if(err)
@@ -516,4 +531,16 @@ exports.getnodedelete = (req, res) => {
       res.send(data);
     }
   });
+};
+
+exports.getnodedropdown = (req,res) => {
+  
+  Graph.getnodedropdown(req.params.id,(err, data) => {
+   if (err)
+     res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving data.",
+    });
+   else res.send(data);
+});
 };
