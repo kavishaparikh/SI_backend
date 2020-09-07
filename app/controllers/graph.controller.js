@@ -484,7 +484,7 @@ exports.getuserlist = (req, res) => {
 
 exports.getalluser = (req, res) => {
     
-  Graph.getallusers((err, data) => {
+  Graph.getalluser((err, data) => {
    if (err)
       res.status(500).send({
         message:
