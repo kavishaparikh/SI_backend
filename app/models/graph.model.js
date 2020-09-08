@@ -275,7 +275,7 @@ Graph.getalluser = result => {
 
 Graph.getnodelist = result => {
   console.log("hellooooooo");
-  sql.query("SELECT DISTINCT * FROM node_details as nd join user_details as ud WHERE nd.email_id = ud.email_id and nd.is_active = 1", (err, res) => {
+  sql.query("SELECT DISTINCT * FROM node_details as nd join user_details as ud WHERE nd.email_id = ud.email_id and nd.is_active = 1 ORDER BY nd.node_id", (err, res) => {
     console.log(res);
     if (err) {
       console.log("error: ", err);
